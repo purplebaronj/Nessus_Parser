@@ -1,0 +1,5 @@
+venv/*
+*.DS_STORE
+*.idea
+.parser_config*
+*.pyc
