@@ -1,7 +1,13 @@
 from elasticsearch import Elasticsearch
 
+import logging
+
+log = logging.getLogger(__name__)
+
 
 class Elastic:
+    """Class to send parsed data into an ElasticSearch index"""
+
     def __init__(self, index, user=None, password=None, cloud_id=None, host='localhost', port=9200):
         if user and password:
             self.es = Elasticsearch([host, ], port=port, http_auth=(user, password))
@@ -17,4 +23,4 @@ class Elastic:
         # TODO: Implement Bulk API to send data in larger streams
         for event in data:
             self.es.index(index=self.index, doc_type="nessus_scans", body=event)
-        return f'Sent to Elastic - {self.index}'
+        log.info(f'Sent to Elastic - {self.index}')

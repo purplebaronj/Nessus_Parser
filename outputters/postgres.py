@@ -1,10 +1,12 @@
-from psycopg2.extras import execute_batch
-from psycopg2.sql import SQL, Identifier
-
+import logging
 import psycopg2
+
+log = logging.getLogger(__name__)
 
 
 class Postgres:
+    """Class to allow parsed data to be send into a Postgres table"""
+
     def __init__(self, user, password, database, host='127.0.0.1', port=5432):
         self.conn = psycopg2.connect(database=database, host=host, port=port, user=user, password=password)
         self.cur = None
@@ -17,7 +19,6 @@ class Postgres:
 
     def send(self, data):
         """Create table as necessary and send data into Postgres"""
-
         with self.conn.cursor() as self.cur:
             self._create_table()
             # TODO Change this to use execute_batch instead to make it more performant
@@ -27,4 +28,4 @@ class Postgres:
                                  {"json_obj": event, "src_file": f})
 
         self.conn.commit()
-        return f'Data sent to Postgres'
+        log.info('Data sent to Postgres')
