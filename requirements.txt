@@ -1,4 +1,4 @@
-certifi==2020.4.5.1
+certifi==2022.12.7
 elasticsearch==7.7.1
 psycopg2-binary==2.8.5
 splunk-sdk==1.6.13
